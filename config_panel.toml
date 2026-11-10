@@ -12,8 +12,8 @@ services = ["__APP__", "__APP__-worker", "__APP__-peer-reads", "__APP__-beat"]
     [main.email]
     name.en = "E-mail"
     name.fr = "E-mail"
-    help.en = "MovieBuff e-mails the confirmation of a new member's address, and its answer to a sign-up request or to a report sent from /about/report/. Without a mail server, nothing is sent: these answers are read on a page instead, and signing up asks for no address confirmation. To check the settings: sudo -u __APP__ __INSTALL_DIR__/venv/bin/python __INSTALL_DIR__/app/manage.py sendtestemail you@example.org"
-    help.fr = "MovieBuff envoie par e-mail la confirmation de l'adresse d'un nouveau membre, et sa réponse à une demande d'inscription ou à un signalement fait depuis /about/report/. Sans serveur mail, rien n'est envoyé : ces réponses se lisent sur une page, et l'inscription ne demande pas de confirmer l'adresse. Pour vérifier les réglages : sudo -u __APP__ __INSTALL_DIR__/venv/bin/python __INSTALL_DIR__/app/manage.py sendtestemail vous@example.org"
+    help.en = "MovieBuff e-mails the confirmation of a new member's address, and its answer to a sign-up request or to a report sent from /about/report/. Without a mail server, nothing is sent: these answers are read on a page instead, and signing up asks for no address confirmation. The administration documentation below says how to send a test e-mail."
+    help.fr = "MovieBuff envoie par e-mail la confirmation de l'adresse d'un nouveau membre, et sa réponse à une demande d'inscription ou à un signalement fait depuis /about/report/. Sans serveur mail, rien n'est envoyé : ces réponses se lisent sur une page, et l'inscription ne demande pas de confirmer l'adresse. La documentation d'administration ci-dessous explique comment envoyer un e-mail de test."
 
         [main.email.email_host]
         ask.en = "Mail server (SMTP)"
@@ -62,8 +62,8 @@ services = ["__APP__", "__APP__-worker", "__APP__-peer-reads", "__APP__-beat"]
         [main.email.email_from]
         ask.en = "Sender address"
         ask.fr = "Adresse d'expédition"
-        help.en = "Many providers only accept the address of the account above. Leave empty for noreply@__DOMAIN__."
-        help.fr = "Beaucoup de fournisseurs n'acceptent que l'adresse du compte ci-dessus. Laisser vide pour noreply@__DOMAIN__."
+        help.en = "Many providers only accept the address of the account above. Leave empty for noreply@ followed by this app's domain."
+        help.fr = "Beaucoup de fournisseurs n'acceptent que l'adresse du compte ci-dessus. Laisser vide pour noreply@ suivi du domaine de l'app."
         type = "email"
         optional = true
         visible = "email_host"

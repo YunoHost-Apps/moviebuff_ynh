@@ -25,6 +25,14 @@ Logs: `journalctl -u __APP__ -u __APP__-worker -u __APP__-peer-reads -u __APP__-
 
 Upgrades replace `__INSTALL_DIR__/app/` and leave these alone.
 
+### E-mail
+
+The mail server is set in the *Configuration* panel above. To check it, as root:
+
+```bash
+sudo -u __APP__ __INSTALL_DIR__/venv/bin/python __INSTALL_DIR__/app/manage.py sendtestemail you@example.org
+```
+
 ### Maintenance commands
 
 As root, from `__INSTALL_DIR__/app`:
