@@ -28,15 +28,16 @@ _moviebuff_install_code() {
 }
 
 _moviebuff_write_env() {
-    # Set from the config panel: without a host, no e-mail is sent
+    # Set from the config panel, which refuses to open while one of them is
+    # missing from the settings: without a host, no e-mail is sent
+    ynh_app_setting_set_default --key=email_host --value=""
     ynh_app_setting_set_default --key=email_port --value=587
     ynh_app_setting_set_default --key=email_security --value=starttls
+    ynh_app_setting_set_default --key=email_user --value=""
+    ynh_app_setting_set_default --key=email_password --value=""
+    ynh_app_setting_set_default --key=email_from --value=""
 
     # Read by the template
-    email_host="${email_host:-}"
-    email_user="${email_user:-}"
-    email_password="${email_password:-}"
-    email_from="${email_from:-}"
     email_use_tls="$([ "$email_security" == starttls ] && echo True || echo False)"
     email_use_ssl="$([ "$email_security" == ssl ] && echo True || echo False)"
     timezone="$(timedatectl show --value --property=Timezone 2> /dev/null || echo UTC)"
