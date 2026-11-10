@@ -15,6 +15,10 @@ ynh_script_progression "Restoring the app main directory..."
 
 ynh_restore "$install_dir"
 
+# Saved while beat was writing to it, and beat fails on it until it starts over.
+# It only records when each task last ran
+find "$install_dir/beat" -mindepth 1 -delete
+
 _moviebuff_set_permissions
 
 #=================================================
