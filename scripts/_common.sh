@@ -88,8 +88,15 @@ _moviebuff_build() {
     # The .mo files are not in the repository: without them every page is in English
     _moviebuff_manage compilemessages --verbosity 0
 
+    _moviebuff_set_permissions
+}
+
+_moviebuff_set_permissions() {
+    chown -R "$app:$app" "$install_dir"
     chmod -R o-rwx "$install_dir"
-    # Served by NGINX itself
+    # NGINX serves the static files itself, so it must reach them
+    chown "$app:www-data" "$install_dir"
+    chmod 750 "$install_dir"
     chown -R "$app:www-data" "$install_dir/staticfiles"
     chmod -R g+rX "$install_dir/staticfiles"
 }
