@@ -1,0 +1,48 @@
+[Unit]
+Description=MovieBuff: web server
+Documentation=https://codeberg.org/retiolus/moviebuff
+After=network.target postgresql.service redis-server.service
+Wants=__APP__-worker.service
+
+[Service]
+Type=simple
+User=__APP__
+Group=__APP__
+UMask=0027
+WorkingDirectory=__INSTALL_DIR__/app/
+# Bound to TCP, not to a socket: the rate limits need the address NGINX connects from
+ExecStart=__INSTALL_DIR__/venv/bin/gunicorn moviebuff.wsgi:application --bind 127.0.0.1:__PORT__ --workers 2
+Restart=on-failure
+RestartSec=5
+
+# Sandboxing options to harden security
+# Details for these options: https://www.freedesktop.org/software/systemd/man/systemd.exec.html
+NoNewPrivileges=yes
+PrivateTmp=yes
+PrivateDevices=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+RestrictNamespaces=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+DevicePolicy=closed
+ProtectClock=yes
+ProtectHostname=yes
+ProtectProc=invisible
+ProtectSystem=strict
+ProtectHome=yes
+# The file cache holds the rate-limit counters and the external ratings;
+# the worker writes the members' data exports, the web process hands them out and deletes them
+ReadWritePaths=__INSTALL_DIR__/cache __INSTALL_DIR__/exports
+ProtectControlGroups=yes
+ProtectKernelModules=yes
+ProtectKernelTunables=yes
+ProtectKernelLogs=yes
+LockPersonality=yes
+SystemCallArchitectures=native
+SystemCallFilter=~@clock @debug @module @mount @obsolete @reboot @setuid @swap @cpu-emulation @privileged
+
+CapabilityBoundingSet=
+AmbientCapabilities=
+
+[Install]
+WantedBy=multi-user.target

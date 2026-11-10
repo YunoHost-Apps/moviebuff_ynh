@@ -1,0 +1,47 @@
+#!/bin/bash
+
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
+
+source _common.sh
+source /usr/share/yunohost/helpers
+
+ynh_abort_if_errors
+
+#=================================================
+# SPECIFIC VALIDATORS FOR TOML SHORT KEYS
+#=================================================
+
+# django-environ reads a value starting with $ as the name of another variable
+validate__email_password() {
+    if [[ "$email_password" == \$* ]]; then
+        echo "MovieBuff cannot read a password that starts with \$"
+    fi
+}
+
+#=================================================
+# GENERIC FINALIZATION
+#=================================================
+
+ynh_app_config_apply() {
+    # The panel never shows a saved password, so an empty field means "unchanged",
+    # unless the mail server itself is removed
+    if [ -n "$email_host" ] && [ -z "$email_password" ]; then
+        email_password="${old[email_password]}"
+    fi
+    if [ -z "$email_host" ]; then
+        local key
+        for key in email_user email_password email_from; do
+            declare -g "$key"=""
+            changed[$key]=true
+        done
+    fi
+
+    _ynh_app_config_apply
+
+    _moviebuff_write_env
+}
+
+#=================================================
+ynh_app_config_run "$1"

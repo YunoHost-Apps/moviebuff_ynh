@@ -1,0 +1,5 @@
+- MovieBuff needs **a domain of its own** (or a subdomain): it cannot be installed under a path such as `example.com/moviebuff`, because other Fediverse servers look for it at the root of the domain.
+- **The domain cannot be changed afterwards.** It is the address of every account on the network: remote servers keep it, and moving would cost every follower.
+- You need a free **TMDB API key**: https://www.themoviedb.org/settings/api
+- MovieBuff accounts are **separate from YunoHost accounts**. The YunoHost user chosen during the installation gets a MovieBuff administrator account with the same name and the password you choose.
+- **No e-mail is sent until you name a mail server** in the app's *Configuration* panel in YunoHost, after the installation. Until then, new members sign up without confirming their address.

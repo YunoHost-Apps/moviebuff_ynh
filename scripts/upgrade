@@ -1,0 +1,58 @@
+#!/bin/bash
+
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
+
+source _common.sh
+source /usr/share/yunohost/helpers
+
+#=================================================
+# STOP SYSTEMD SERVICES
+#=================================================
+ynh_script_progression "Stopping $app's systemd services..."
+
+# The worker holds its own copy of the code: left running, it would handle
+# new activities with the old release
+_moviebuff_stop
+
+#=================================================
+# DOWNLOAD, CHECK AND UNPACK SOURCE
+#=================================================
+ynh_script_progression "Upgrading MovieBuff in its Python virtual environment..."
+
+_moviebuff_install_code
+
+#=================================================
+# UPDATE A CONFIG FILE
+#=================================================
+ynh_script_progression "Updating $app's configuration files..."
+
+_moviebuff_add_config
+
+ynh_script_progression "Upgrading the database, the assets and the translations..."
+
+_moviebuff_build
+
+#=================================================
+# REAPPLY SYSTEM CONFIGURATION
+#=================================================
+ynh_script_progression "Upgrading system configurations related to $app..."
+
+ynh_config_add_nginx
+
+# Beat reads its schedule only when it starts, so it is restarted with the rest
+_moviebuff_add_services
+
+#=================================================
+# START SYSTEMD SERVICES
+#=================================================
+ynh_script_progression "Starting $app's systemd services..."
+
+_moviebuff_start
+
+#=================================================
+# END OF SCRIPT
+#=================================================
+
+ynh_script_progression "Upgrade of $app completed"

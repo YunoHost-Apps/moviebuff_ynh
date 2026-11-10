@@ -1,0 +1,76 @@
+#!/bin/bash
+
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
+
+# Keep this path for calling _common.sh inside the execution's context of backup and restore scripts
+source ../settings/scripts/_common.sh
+source /usr/share/yunohost/helpers
+
+#=================================================
+# RESTORE THE APP MAIN DIR
+#=================================================
+ynh_script_progression "Restoring the app main directory..."
+
+ynh_restore "$install_dir"
+
+chown -R "$app:$app" "$install_dir"
+chmod -R o-rwx "$install_dir"
+
+#=================================================
+# RESTORE THE POSTGRESQL DATABASE
+#=================================================
+ynh_script_progression "Restoring the PostgreSQL database..."
+
+ynh_psql_db_shell < ./db.sql
+
+#=================================================
+# RESTORE THE CONFIGURATION
+#=================================================
+ynh_script_progression "Restoring $app's configuration..."
+
+# The broker only holds messages in flight, but the database number saved
+# with the backup may belong to another app on this server
+if [ "$(redis-cli -n "$redis_db" dbsize)" != "0" ]; then
+    redis_db="$(ynh_redis_get_free_db)"
+    ynh_app_setting_set --key=redis_db --value="$redis_db"
+fi
+_moviebuff_add_config
+
+# The venv breaks if the backup comes from another Python version
+if ! _moviebuff_manage check > /dev/null 2>&1; then
+    ynh_script_progression "Rebuilding MovieBuff's Python virtual environment..."
+    _moviebuff_install_code
+    _moviebuff_add_config
+    _moviebuff_build
+fi
+
+#=================================================
+# RESTORE SYSTEM CONFIGURATION
+#=================================================
+ynh_script_progression "Restoring system configurations related to $app..."
+
+ynh_restore "/etc/nginx/conf.d/$domain.d/$app.conf"
+
+for service in $(_moviebuff_services); do
+    ynh_restore "/etc/systemd/system/$service.service"
+    systemctl enable "$service.service" --quiet
+done
+
+_moviebuff_register_services
+
+#=================================================
+# RELOAD NGINX AND THE APP SERVICES
+#=================================================
+ynh_script_progression "Reloading NGINX web server and $app's services..."
+
+_moviebuff_start
+
+ynh_systemctl --service=nginx --action=reload
+
+#=================================================
+# END OF SCRIPT
+#=================================================
+
+ynh_script_progression "Restoration completed for $app"

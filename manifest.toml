@@ -1,0 +1,106 @@
+#:schema https://raw.githubusercontent.com/YunoHost/apps/main/schemas/manifest.v2.schema.json
+
+packaging_format = 2
+
+id = "moviebuff"
+name = "MovieBuff"
+description.en = "Federated social network to log, rate and review films and TV series"
+description.fr = "Réseau social fédéré pour noter, critiquer et suivre films et séries"
+
+version = "0.1.0~ynh1"
+
+maintainers = ["retiolus"]
+
+[upstream]
+license = "GPL-3.0-or-later"
+website = "https://moviebuff.social"
+demo = "https://moviebuff.social"
+admindoc = "https://codeberg.org/retiolus/moviebuff/src/branch/main/docs/deployment.md"
+code = "https://codeberg.org/retiolus/moviebuff"
+
+[integration]
+yunohost = ">= 12.1.40"
+helpers_version = "2.1"
+# psycopg, cryptography and aiohttp ship wheels for these two only: elsewhere
+# pip would have to build them, with Rust for cryptography
+architectures = ["amd64", "arm64"]
+multi_instance = true
+
+ldap = false
+sso = false
+
+disk = "300M"
+ram.build = "300M"
+ram.runtime = "700M"
+
+[install]
+    # No path question: WebFinger and NodeInfo live under /.well-known/ at the
+    # root of the domain, so MovieBuff needs a domain of its own
+    [install.domain]
+    type = "domain"
+
+    [install.admin]
+    type = "user"
+
+    [install.password]
+    help.en = "Password of the MovieBuff administrator account, which has the same username as the YunoHost user chosen above. MovieBuff accounts are separate from YunoHost accounts."
+    help.fr = "Mot de passe du compte administrateur de MovieBuff, qui porte le même nom que l'utilisateur YunoHost choisi ci-dessus. Les comptes MovieBuff sont distincts des comptes YunoHost."
+    type = "password"
+
+    [install.tmdb_api_key]
+    ask.en = "TMDB API key"
+    ask.fr = "Clé d'API TMDB"
+    help.en = "The film and TV catalogue comes from The Movie Database. Create a free key at https://www.themoviedb.org/settings/api (the 'API Key', not the 'Read Access Token')."
+    help.fr = "Le catalogue des films et séries vient de The Movie Database. Créez une clé gratuite sur https://www.themoviedb.org/settings/api (la « API Key », pas le « Read Access Token »)."
+    type = "string"
+
+    [install.language]
+    ask.en = "Language served to visitors whose browser asks for none of the available ones"
+    ask.fr = "Langue servie aux visiteurs dont le navigateur ne demande aucune des langues disponibles"
+    type = "select"
+    choices.en = "English"
+    choices.fr = "Français"
+    default = "en"
+
+    [install.registration_mode]
+    ask.en = "Who may create an account?"
+    ask.fr = "Qui peut créer un compte ?"
+    help.en = "Only the starting value: it is changed afterwards in MovieBuff, under /moderation/ > Settings."
+    help.fr = "Seulement la valeur de départ : elle se change ensuite dans MovieBuff, sous /moderation/ > Paramètres."
+    type = "select"
+    choices.open = "Anybody"
+    choices.approval = "Anybody, once a moderator accepts the request"
+    choices.closed = "Nobody (accounts are created by the administrator)"
+    default = "approval"
+
+[resources]
+    [resources.sources]
+
+    [resources.sources.main]
+    # The tag's archive, not a clone: MovieBuff reads its version from the
+    # moviebuff/VERSION file Git fills in when it builds the archive
+    url = "https://codeberg.org/retiolus/moviebuff/archive/v0.1.0.tar.gz"
+    sha256 = "4fe056cd3a947a3bfe86735082a07d9863ea9fed026d56fc049e469c3fe3c48c"
+    autoupdate.strategy = "latest_forgejo_tag"
+
+    [resources.system_user]
+
+    [resources.install_dir]
+    group = "www-data:r-x"
+
+    [resources.permissions]
+    # Remote servers fetch actors, posts and inboxes without any session:
+    # behind the SSO, federation stops
+    main.url = "/"
+    main.allowed = "visitors"
+    main.auth_header = false
+    main.protected = true
+
+    [resources.ports]
+    main.default = 8000
+
+    [resources.apt]
+    packages = "python3-venv, gettext, postgresql, redis-server"
+
+    [resources.database]
+    type = "postgresql"

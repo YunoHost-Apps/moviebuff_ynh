@@ -1,0 +1,45 @@
+# Written by YunoHost on every upgrade: change these through the app settings,
+# not here. Every variable is described in env/.env.example upstream.
+
+DJANGO_ENV=production
+SECRET_KEY=__SECRET_KEY__
+
+ALLOWED_HOSTS=__DOMAIN__
+CSRF_TRUSTED_ORIGINS=https://__DOMAIN__
+DOMAIN_NAME=__DOMAIN__
+# Chosen once: it is the address of every actor on the network
+ACTIVITYPUB_DOMAIN=https://__DOMAIN__
+# The loopback NGINX forwards from; without it every visitor shares one
+# rate-limit counter
+TRUSTED_PROXIES=127.0.0.1,::1
+
+DATABASE_URL=postgresql://__DB_USER__:__DB_PWD__@127.0.0.1:5432/__DB_NAME__
+CELERY_BROKER_URL=redis://127.0.0.1:6379/__REDIS_DB__
+CELERY_PEER_READS_QUEUE=peer-reads
+
+STATIC_ROOT=__INSTALL_DIR__/staticfiles
+# Outside the code directory, which every upgrade replaces
+CACHE_DIR=__INSTALL_DIR__/cache
+JELLYFIN_PLUGIN_DIR=__INSTALL_DIR__/jellyfin-plugin
+EXPORT_DIR=__INSTALL_DIR__/exports
+# The assets are fetched once per upgrade by the package, never by the running site
+AUTO_FETCH_ASSETS=False
+
+TMDB_API_KEY=__TMDB_API_KEY__
+
+LANGUAGE_CODE=__LANGUAGE__
+TIME_ZONE=__TIMEZONE__
+REGISTRATION_MODE=__REGISTRATION_MODE__
+
+# Set from the app's config panel in YunoHost
+EMAIL_HOST=__EMAIL_HOST__
+EMAIL_PORT=__EMAIL_PORT__
+EMAIL_USE_TLS=__EMAIL_USE_TLS__
+EMAIL_USE_SSL=__EMAIL_USE_SSL__
+EMAIL_HOST_USER=__EMAIL_USER__
+EMAIL_HOST_PASSWORD=__EMAIL_PASSWORD__
+DEFAULT_FROM_EMAIL=__EMAIL_FROM__
+
+WEBPUSH_PUBLIC_KEY=__WEBPUSH_PUBLIC_KEY__
+WEBPUSH_PRIVATE_KEY=__WEBPUSH_PRIVATE_KEY__
+WEBPUSH_CONTACT=__WEBPUSH_CONTACT__

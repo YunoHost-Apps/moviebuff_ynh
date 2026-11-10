@@ -1,0 +1,69 @@
+#:schema https://github.com/YunoHost/apps/raw/main/schemas/config_panel.v1.schema.json
+
+version = "1.0"
+
+[main]
+name.en = "Configuration"
+name.fr = "Configuration"
+
+# Each of them reads the .env only when it starts
+services = ["__APP__", "__APP__-worker", "__APP__-peer-reads", "__APP__-beat"]
+
+    [main.email]
+    name.en = "E-mail"
+    name.fr = "E-mail"
+    help.en = "MovieBuff e-mails the confirmation of a new member's address, and its answer to a sign-up request or to a report sent from /about/report/. Without a mail server, nothing is sent: these answers are read on a page instead, and signing up asks for no address confirmation. To check the settings: sudo -u __APP__ __INSTALL_DIR__/venv/bin/python __INSTALL_DIR__/app/manage.py sendtestemail you@example.org"
+    help.fr = "MovieBuff envoie par e-mail la confirmation de l'adresse d'un nouveau membre, et sa réponse à une demande d'inscription ou à un signalement fait depuis /about/report/. Sans serveur mail, rien n'est envoyé : ces réponses se lisent sur une page, et l'inscription ne demande pas de confirmer l'adresse. Pour vérifier les réglages : sudo -u __APP__ __INSTALL_DIR__/venv/bin/python __INSTALL_DIR__/app/manage.py sendtestemail vous@example.org"
+
+        [main.email.email_host]
+        ask.en = "Mail server (SMTP)"
+        ask.fr = "Serveur mail (SMTP)"
+        help.en = "Leave empty to send no e-mail."
+        help.fr = "Laisser vide pour n'envoyer aucun e-mail."
+        type = "string"
+        optional = true
+        example = "smtp.example.org"
+
+        [main.email.email_port]
+        ask.en = "Port"
+        ask.fr = "Port"
+        help.en = "Usually 587 with STARTTLS, 465 with TLS."
+        help.fr = "En général 587 avec STARTTLS, 465 avec TLS."
+        type = "number"
+        min = 1
+        max = 65535
+        visible = "email_host"
+
+        [main.email.email_security]
+        ask.en = "Encryption"
+        ask.fr = "Chiffrement"
+        type = "select"
+        choices.starttls = "STARTTLS"
+        choices.ssl = "TLS"
+        choices.none = "None"
+        visible = "email_host"
+
+        [main.email.email_user]
+        ask.en = "Username"
+        ask.fr = "Identifiant"
+        type = "string"
+        optional = true
+        visible = "email_host"
+
+        [main.email.email_password]
+        ask.en = "Password"
+        ask.fr = "Mot de passe"
+        help.en = "Left empty, the one already saved is kept."
+        help.fr = "Laissé vide, celui déjà enregistré est conservé."
+        type = "password"
+        optional = true
+        visible = "email_host"
+
+        [main.email.email_from]
+        ask.en = "Sender address"
+        ask.fr = "Adresse d'expédition"
+        help.en = "Many providers only accept the address of the account above. Leave empty for noreply@__DOMAIN__."
+        help.fr = "Beaucoup de fournisseurs n'acceptent que l'adresse du compte ci-dessus. Laisser vide pour noreply@__DOMAIN__."
+        type = "email"
+        optional = true
+        visible = "email_host"
