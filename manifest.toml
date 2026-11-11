@@ -31,7 +31,7 @@ sso = false
 
 disk = "300M"
 ram.build = "300M"
-ram.runtime = "700M"
+ram.runtime = "400M"
 
 [install]
     # No path question: WebFinger and NodeInfo live under /.well-known/ at the
