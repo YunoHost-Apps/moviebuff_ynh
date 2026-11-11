@@ -9,6 +9,9 @@ User=__APP__
 Group=__APP__
 UMask=0027
 WorkingDirectory=__INSTALL_DIR__/app/
+# The schedule file only records when each task last ran, and beat stops for
+# good on one left damaged by a backup or an interrupted write
+ExecStartPre=/usr/bin/find __INSTALL_DIR__/beat -mindepth 1 -delete
 # Exactly one beat per instance: two would tick the same schedule twice
 ExecStart=__INSTALL_DIR__/venv/bin/celery -A moviebuff beat -l info -s __INSTALL_DIR__/beat/celerybeat-schedule
 Restart=on-failure
