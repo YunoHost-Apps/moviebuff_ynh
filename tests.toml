@@ -4,5 +4,8 @@ test_format = 1.0
 
 [default]
 
+    # The domain is the address of every account on the network: it cannot change
+    exclude = ["change_url"]
+
     # Only checked for being set: the catalogue is never queried by the tests
     args.tmdb_api_key = "not-a-real-key"
