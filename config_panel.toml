@@ -3,19 +3,44 @@
 version = "1.0"
 
 [main]
-name.en = "Configuration"
-name.fr = "Configuration"
+name.en = "General"
+name.fr = "Général"
 
 # Each of them reads the .env only when it starts
 services = ["__APP__", "__APP__-worker", "__APP__-peer-reads", "__APP__-beat"]
 
-    [main.email]
-    name.en = "E-mail"
-    name.fr = "E-mail"
-    help.en = "MovieBuff e-mails the confirmation of a new member's address, and its answer to a sign-up request or to a report sent from /about/report/. Without e-mail, these answers are read on a page instead, and signing up asks for no address confirmation. The administration documentation below says how to send a test e-mail."
-    help.fr = "MovieBuff envoie par e-mail la confirmation de l'adresse d'un nouveau membre, et sa réponse à une demande d'inscription ou à un signalement fait depuis /about/report/. Sans e-mail, ces réponses se lisent sur une page, et l'inscription ne demande pas de confirmer l'adresse. La documentation d'administration ci-dessous explique comment envoyer un e-mail de test."
+    [main.general]
+    name.en = "General"
+    name.fr = "Général"
 
-        [main.email.email_mode]
+        [main.general.tmdb_api_key]
+        ask.en = "TMDB API key"
+        ask.fr = "Clé d'API TMDB"
+        help.en = "Left empty, the one already saved is kept."
+        help.fr = "Laissée vide, celle déjà enregistrée est conservée."
+        type = "password"
+        optional = true
+
+        [main.general.language]
+        ask.en = "Language served to visitors whose browser asks for none of the available ones"
+        ask.fr = "Langue servie aux visiteurs dont le navigateur ne demande aucune des langues disponibles"
+        type = "select"
+        choices.en = "English"
+        choices.fr = "Français"
+
+[email]
+name.en = "E-mail"
+name.fr = "E-mail"
+
+services = ["__APP__", "__APP__-worker", "__APP__-peer-reads", "__APP__-beat"]
+
+    [email.sending]
+    name.en = "Sending"
+    name.fr = "Envoi"
+    help.en = "MovieBuff e-mails the confirmation of a new member's address, and its answer to a sign-up request or to a report sent from /about/report/. Without e-mail, these answers are read on a page instead, and signing up asks for no address confirmation."
+    help.fr = "MovieBuff envoie par e-mail la confirmation de l'adresse d'un nouveau membre, et sa réponse à une demande d'inscription ou à un signalement fait depuis /about/report/. Sans e-mail, ces réponses se lisent sur une page, et l'inscription ne demande pas de confirmer l'adresse."
+
+        [email.sending.email_mode]
         ask.en = "Send e-mails"
         ask.fr = "Envoi des e-mails"
         type = "select"
@@ -23,7 +48,7 @@ services = ["__APP__", "__APP__-worker", "__APP__-peer-reads", "__APP__-beat"]
         choices.yunohost = "Through YunoHost's mail server"
         choices.custom = "Through another mail server"
 
-        [main.email.mail_user]
+        [email.sending.mail_user]
         ask.en = "Sender name"
         ask.fr = "Nom d'expéditeur"
         help.en = "The part of the address before the @."
@@ -33,7 +58,7 @@ services = ["__APP__", "__APP__-worker", "__APP__-peer-reads", "__APP__-beat"]
         pattern.error = "Lowercase letters, digits, dots, hyphens and underscores only"
         visible = "email_mode == 'yunohost'"
 
-        [main.email.mail_domain]
+        [email.sending.mail_domain]
         ask.en = "Sender domain"
         ask.fr = "Domaine d'expédition"
         help.en = "A domain whose e-mail works, as YunoHost's diagnosis says."
@@ -41,14 +66,14 @@ services = ["__APP__", "__APP__-worker", "__APP__-peer-reads", "__APP__-beat"]
         type = "domain"
         visible = "email_mode == 'yunohost'"
 
-        [main.email.email_host]
+        [email.sending.email_host]
         ask.en = "Mail server (SMTP)"
         ask.fr = "Serveur mail (SMTP)"
         type = "string"
         example = "smtp.example.org"
         visible = "email_mode == 'custom'"
 
-        [main.email.email_port]
+        [email.sending.email_port]
         ask.en = "Port"
         ask.fr = "Port"
         help.en = "Usually 587 with STARTTLS, 465 with TLS."
@@ -58,7 +83,7 @@ services = ["__APP__", "__APP__-worker", "__APP__-peer-reads", "__APP__-beat"]
         max = 65535
         visible = "email_mode == 'custom'"
 
-        [main.email.email_security]
+        [email.sending.email_security]
         ask.en = "Encryption"
         ask.fr = "Chiffrement"
         type = "select"
@@ -67,14 +92,14 @@ services = ["__APP__", "__APP__-worker", "__APP__-peer-reads", "__APP__-beat"]
         choices.none = "None"
         visible = "email_mode == 'custom'"
 
-        [main.email.email_user]
+        [email.sending.email_user]
         ask.en = "Username"
         ask.fr = "Identifiant"
         type = "string"
         optional = true
         visible = "email_mode == 'custom'"
 
-        [main.email.email_password]
+        [email.sending.email_password]
         ask.en = "Password"
         ask.fr = "Mot de passe"
         help.en = "Left empty, the one already saved is kept."
@@ -83,7 +108,7 @@ services = ["__APP__", "__APP__-worker", "__APP__-peer-reads", "__APP__-beat"]
         optional = true
         visible = "email_mode == 'custom'"
 
-        [main.email.email_from]
+        [email.sending.email_from]
         ask.en = "Sender address"
         ask.fr = "Adresse d'expédition"
         help.en = "Many providers only accept the address of the account above. Leave empty for noreply@ followed by this app's domain."
@@ -91,3 +116,20 @@ services = ["__APP__", "__APP__-worker", "__APP__-peer-reads", "__APP__-beat"]
         type = "email"
         optional = true
         visible = "email_mode == 'custom'"
+
+    [email.test]
+    name.en = "Test"
+    name.fr = "Test"
+
+        [email.test.test_address]
+        ask.en = "Address"
+        ask.fr = "Adresse"
+        type = "email"
+        bind = "null"
+        optional = true
+
+        [email.test.send_test_email]
+        ask.en = "Send a test e-mail"
+        ask.fr = "Envoyer un e-mail de test"
+        type = "button"
+        enabled = "test_address"

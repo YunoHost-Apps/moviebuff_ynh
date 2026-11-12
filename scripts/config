@@ -25,9 +25,12 @@ validate__email_password() {
 #=================================================
 
 ynh_app_config_apply() {
-    # The panel never shows a saved password, so an empty field means "unchanged"
+    # The panel never shows a saved password or key, so an empty field means "unchanged"
     if [ "$email_mode" == custom ] && [ -z "${email_password:-}" ]; then
         email_password="${old[email_password]:-}"
+    fi
+    if [ -z "${tmdb_api_key:-}" ]; then
+        tmdb_api_key="${old[tmdb_api_key]:-}"
     fi
 
     _ynh_app_config_apply
@@ -38,6 +41,19 @@ ynh_app_config_apply() {
     fi
 
     _moviebuff_write_env
+}
+
+#=================================================
+# ACTIONS
+#=================================================
+
+# Sent with the settings already saved, which the services read
+run__send_test_email() {
+    if [ "$email_mode" == none ]; then
+        ynh_die "MovieBuff sends no e-mail: choose how it sends them, save, then try again."
+    fi
+    _moviebuff_manage sendtestemail "$test_address"
+    ynh_print_info "Test e-mail sent to $test_address"
 }
 
 #=================================================
