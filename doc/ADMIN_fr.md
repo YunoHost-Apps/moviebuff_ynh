@@ -25,14 +25,6 @@ Journaux : `journalctl -u __APP__ -u __APP__-worker -u __APP__-peer-reads -u __A
 
 Les mises à jour remplacent `__INSTALL_DIR__/app/` et ne touchent pas à ces dossiers.
 
-### E-mail
-
-Le serveur mail se règle dans le panneau *Configuration* ci-dessus. Pour le vérifier, en root :
-
-```bash
-sudo -u __APP__ __INSTALL_DIR__/venv/bin/python __INSTALL_DIR__/app/manage.py sendtestemail vous@example.org
-```
-
 ### Commandes de maintenance
 
 En root, depuis `__INSTALL_DIR__/app` :

@@ -7,7 +7,7 @@ name = "MovieBuff"
 description.en = "Federated social network to log, rate and review films and TV series"
 description.fr = "Réseau social fédéré pour noter, critiquer et suivre films et séries"
 
-version = "0.1.1~ynh1"
+version = "0.1.1~ynh2"
 
 maintainers = ["retiolus"]
 
@@ -84,6 +84,7 @@ ram.runtime = "400M"
     autoupdate.strategy = "latest_forgejo_tag"
 
     [resources.system_user]
+    allow_email = true
 
     [resources.install_dir]
     group = "www-data:r-x"
