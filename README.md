@@ -12,7 +12,7 @@ Federated social network to log, rate and review films and TV series
 
 [![🌐 Official app website](https://img.shields.io/badge/Official_app_website-darkgreen?style=for-the-badge)](https://moviebuff.social)
 [![App Demo](https://img.shields.io/badge/App_Demo-blue?style=for-the-badge)](https://moviebuff.social)
-[![Version: 0.1.1~ynh1](https://img.shields.io/badge/Version-0.1.1~ynh1-rgb(18,138,11)?style=for-the-badge)](https://ci-apps.yunohost.org/ci/apps/moviebuff/)
+[![Version: 0.1.1~ynh2](https://img.shields.io/badge/Version-0.1.1~ynh2-rgb(18,138,11)?style=for-the-badge)](https://ci-apps.yunohost.org/ci/apps/moviebuff/)
 
 <div align="center">
 <a href="https://apps.yunohost.org/app/moviebuff"><img height="100px" src="https://github.com/YunoHost/yunohost-artwork/raw/refs/heads/main/badges/neopossum-badges/badge_more_info_on_the_appstore.svg"/></a>
