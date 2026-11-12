@@ -2,4 +2,4 @@
 - **Le domaine ne pourra plus être changé.** C'est l'adresse de chaque compte sur le réseau : les serveurs distants la conservent, et déménager ferait perdre tous les abonnés.
 - Il vous faut une **clé d'API TMDB** gratuite : https://www.themoviedb.org/settings/api
 - Les comptes MovieBuff sont **distincts des comptes YunoHost**. L'utilisateur YunoHost choisi à l'installation reçoit un compte administrateur MovieBuff du même nom, avec le mot de passe que vous choisissez.
-- Les e-mails partent par **le serveur mail de YunoHost**, depuis `moviebuff@` suivi du domaine de l'app. Un autre expéditeur, ou un autre serveur mail, se règle dans le panneau *Configuration* de l'app dans YunoHost.
+- Les e-mails partent par **le serveur mail de YunoHost**, depuis `moviebuff@` suivi du domaine de l'app. Ce domaine doit avoir son certificat Let's Encrypt et un e-mail qui fonctionne d'après le diagnostic de YunoHost : sinon les nouveaux membres ne reçoivent jamais le lien qui confirme leur adresse. Un autre expéditeur, un autre serveur mail ou aucun e-mail se règle dans le panneau *Configuration* de l'app dans YunoHost.
