@@ -17,6 +17,9 @@ ynh_app_setting_set --key=secret_key --value="$secret_key"
 redis_db="$(ynh_redis_get_free_db)"
 ynh_app_setting_set --key=redis_db --value="$redis_db"
 
+email_mode=yunohost
+ynh_app_setting_set --key=email_mode --value="$email_mode"
+
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================

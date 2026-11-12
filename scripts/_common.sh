@@ -29,7 +29,11 @@ _moviebuff_install_code() {
 
 _moviebuff_write_env() {
     # Set from the config panel, which refuses to open while one of them is
-    # missing from the settings: without a host, no e-mail is sent
+    # missing from the settings. An instance from before the choice keeps
+    # sending as it did: through its own server if it named one, else not at all
+    ynh_app_setting_set_default --key=email_mode --value="$([ -n "${email_host:-}" ] && echo custom || echo none)"
+    ynh_app_setting_set_default --key=mail_user --value="$app"
+    ynh_app_setting_set_default --key=mail_domain --value="$domain"
     ynh_app_setting_set_default --key=email_host --value=""
     ynh_app_setting_set_default --key=email_port --value=587
     ynh_app_setting_set_default --key=email_security --value=starttls
@@ -38,8 +42,23 @@ _moviebuff_write_env() {
     ynh_app_setting_set_default --key=email_from --value=""
 
     # Read by the template
-    email_use_tls="$([ "$email_security" == starttls ] && echo True || echo False)"
-    email_use_ssl="$([ "$email_security" == ssl ] && echo True || echo False)"
+    smtp_host="" smtp_port=587 smtp_user="" smtp_password="" smtp_from=""
+    smtp_use_tls=False smtp_use_ssl=False smtp_tls_server_name=""
+    case "$email_mode" in
+        yunohost)
+            # YunoHost's postfix, reached on this machine: its certificate
+            # carries the public name it is chosen by (SNI)
+            smtp_host=127.0.0.1 smtp_use_tls=True
+            smtp_user="$app" smtp_password="$mail_pwd"
+            smtp_from="$mail_user@$mail_domain" smtp_tls_server_name="$domain"
+            ;;
+        custom)
+            smtp_host="$email_host" smtp_port="$email_port"
+            smtp_use_tls="$([ "$email_security" == starttls ] && echo True || echo False)"
+            smtp_use_ssl="$([ "$email_security" == ssl ] && echo True || echo False)"
+            smtp_user="$email_user" smtp_password="$email_password" smtp_from="$email_from"
+            ;;
+    esac
     timezone="$(timedatectl show --value --property=Timezone 2> /dev/null || echo UTC)"
     webpush_contact="mailto:$(ynh_user_get_info --username="$admin" --key=mail)"
     webpush_public_key="${webpush_public_key:-}"

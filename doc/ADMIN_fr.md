@@ -27,7 +27,7 @@ Les mises à jour remplacent `__INSTALL_DIR__/app/` et ne touchent pas à ces do
 
 ### E-mail
 
-Le serveur mail se règle dans le panneau *Configuration* ci-dessus. Pour le vérifier, en root :
+L'envoi des e-mails se règle dans le panneau *Configuration* ci-dessus. Pour le vérifier, en root :
 
 ```bash
 sudo -u __APP__ __INSTALL_DIR__/venv/bin/python __INSTALL_DIR__/app/manage.py sendtestemail vous@example.org
