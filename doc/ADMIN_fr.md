@@ -11,7 +11,7 @@ MovieBuff tourne sous la forme de quatre services, tous nécessaires :
 - `__APP__` : le serveur web
 - `__APP__-worker` : tout ce qui part vers les autres serveurs, les e-mails et les exports de données des membres. S'il s'arrête, le site reste consultable mais la fédération s'arrête, sans aucune erreur.
 - `__APP__-peer-reads` : ce que MovieBuff lit sur les autres serveurs, une lecture à la fois, pour qu'un serveur lent ne retarde jamais les envois
-- `__APP__-beat` : les tâches planifiées (publication des listes, suppressions et suspensions de comptes arrivées à échéance, ménage, et le calendrier des sorties, rafraîchi depuis TMDB chaque nuit à 4 h 37, heure du serveur)
+- `__APP__-beat` : les tâches planifiées (publication des listes, suppressions et suspensions de comptes arrivées à échéance, ménage, le calendrier des sorties, rafraîchi depuis TMDB chaque nuit à 4 h 37, heure du serveur, et les identifiants que Wikidata donne à chaque titre, chaque nuit à 3 h 19)
 
 L'onglet *Santé* de `/moderation/` montre les files d'attente et quand chaque tâche planifiée a tourné pour la dernière fois.
 

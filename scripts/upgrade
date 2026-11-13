@@ -34,6 +34,10 @@ ynh_script_progression "Upgrading the database, the assets and the translations.
 
 _moviebuff_build
 
+# Since 0.1.2, so the account search finds every account that follows or is
+# followed. Idempotent; an unreachable server only leaves its accounts out
+_moviebuff_manage remember_follow_accounts || ynh_print_warn "remember_follow_accounts failed: run it again later"
+
 #=================================================
 # REAPPLY SYSTEM CONFIGURATION
 #=================================================
