@@ -11,7 +11,7 @@ MovieBuff runs as four services, all needed:
 - `__APP__`: the web server
 - `__APP__-worker`: everything sent to other servers, e-mails and the members' data exports. If it stops, the site keeps working but federation stops, without any error.
 - `__APP__-peer-reads`: what MovieBuff reads from other servers, one at a time, so a slow server never holds up the deliveries
-- `__APP__-beat`: the scheduled tasks (publishing lists, account deletions and suspensions coming due, clean-ups, and the release calendar, refreshed from TMDB every night at 04:37 server time)
+- `__APP__-beat`: the scheduled tasks (publishing lists, account deletions and suspensions coming due, clean-ups, the release calendar, refreshed from TMDB every night at 04:37 server time, and the identifiers Wikidata gives each title, every night at 03:19)
 
 The *Health* tab of `/moderation/` shows the queues and when each scheduled task last ran.
 

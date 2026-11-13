@@ -12,7 +12,7 @@ Federated social network to log, rate and review films and TV series
 
 [![🌐 Official app website](https://img.shields.io/badge/Official_app_website-darkgreen?style=for-the-badge)](https://moviebuff.social)
 [![App Demo](https://img.shields.io/badge/App_Demo-blue?style=for-the-badge)](https://moviebuff.social)
-[![Version: 0.1.1~ynh2](https://img.shields.io/badge/Version-0.1.1~ynh2-rgb(18,138,11)?style=for-the-badge)](https://ci-apps.yunohost.org/ci/apps/moviebuff/)
+[![Version: 0.1.2~ynh1](https://img.shields.io/badge/Version-0.1.2~ynh1-rgb(18,138,11)?style=for-the-badge)](https://ci-apps.yunohost.org/ci/apps/moviebuff/)
 
 <div align="center">
 <a href="https://apps.yunohost.org/app/moviebuff"><img height="100px" src="https://github.com/YunoHost/yunohost-artwork/raw/refs/heads/main/badges/neopossum-badges/badge_more_info_on_the_appstore.svg"/></a>
@@ -36,6 +36,11 @@ sudo yunohost app install https://github.com/YunoHost-Apps/moviebuff_ynh/tree/te
 sudo yunohost app upgrade moviebuff -u https://github.com/YunoHost-Apps/moviebuff_ynh/tree/testing
 ```
 
+You can also switch to the testing branch to update from testing by default (as same as for APT when you chose to use a testing repos) with this command:
+```bash
+sudo yunohost app setting moviebuff upgrade_channel -v testing
+```
+
 ### 📚 App packaging documentation
 
-Please see <https://doc.yunohost.org/packaging_apps> for more information.
+Please see <https://doc.yunohost.org/dev/packaging/> for more information.
