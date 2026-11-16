@@ -7,7 +7,7 @@ name = "MovieBuff"
 description.en = "Federated social network to log, rate and review films and TV series"
 description.fr = "Réseau social fédéré pour noter, critiquer et suivre films et séries"
 
-version = "0.1.2~ynh1"
+version = "0.2.0~ynh1"
 
 maintainers = ["retiolus"]
 
@@ -79,8 +79,8 @@ ram.runtime = "400M"
     [resources.sources.main]
     # The tag's archive, not a clone: MovieBuff reads its version from the
     # moviebuff/VERSION file Git fills in when it builds the archive
-    url = "https://codeberg.org/retiolus/moviebuff/archive/v0.1.2.tar.gz"
-    sha256 = "4902e1c9e74d178f777b342bf7fa932f46e1e2e40483f35060180121ede222b1"
+    url = "https://codeberg.org/retiolus/moviebuff/archive/v0.2.0.tar.gz"
+    sha256 = "08c0d893e59ff2b5242b976b5398bad126d6f4988b109f417a9d1b4e1f126693"
     autoupdate.strategy = "latest_forgejo_tag"
 
     [resources.system_user]
