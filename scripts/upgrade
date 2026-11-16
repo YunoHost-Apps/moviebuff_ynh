@@ -38,6 +38,10 @@ _moviebuff_build
 # followed. Idempotent; an unreachable server only leaves its accounts out
 _moviebuff_manage remember_follow_accounts || ynh_print_warn "remember_follow_accounts failed: run it again later"
 
+# Since 0.2.0, members without a picture go out with the MovieBuff mark: tell
+# their followers once. Idempotent; a delivery that fails is retried by the worker
+_moviebuff_manage announce_default_avatars || ynh_print_warn "announce_default_avatars failed: run it again later"
+
 #=================================================
 # REAPPLY SYSTEM CONFIGURATION
 #=================================================
