@@ -19,7 +19,9 @@ for service in $(_moviebuff_services); do
     ynh_config_remove_systemd "$service"
 done
 
+ynh_safe_rm "$_moviebuff_nginx_cache_conf"
 ynh_config_remove_nginx
+ynh_safe_rm "$_moviebuff_nginx_cache_dir"
 
 ynh_redis_remove_db "$redis_db"
 

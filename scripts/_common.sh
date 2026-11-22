@@ -139,6 +139,17 @@ get_user_model().objects.create_superuser(
 EOF
 }
 
+# The cache's maps and zone belong to the http level, outside the domain's server block
+_moviebuff_nginx_cache_conf="/etc/nginx/conf.d/$app-cache.conf"
+_moviebuff_nginx_cache_dir="/var/cache/nginx/$app"
+
+_moviebuff_add_nginx() {
+    mkdir -p "$_moviebuff_nginx_cache_dir"
+    chown www-data:www-data "$_moviebuff_nginx_cache_dir"
+    ynh_config_add --template="nginx-cache.conf" --destination="$_moviebuff_nginx_cache_conf"
+    ynh_config_add_nginx
+}
+
 _moviebuff_add_services() {
     ynh_config_add_systemd --service="$app" --template="web.service"
     ynh_config_add_systemd --service="$app-worker" --template="worker.service"

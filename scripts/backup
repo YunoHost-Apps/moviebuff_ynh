@@ -23,6 +23,7 @@ ynh_backup "$install_dir"
 #=================================================
 
 ynh_backup "/etc/nginx/conf.d/$domain.d/$app.conf"
+ynh_backup "$_moviebuff_nginx_cache_conf"
 
 for service in $(_moviebuff_services); do
     ynh_backup "/etc/systemd/system/$service.service"
