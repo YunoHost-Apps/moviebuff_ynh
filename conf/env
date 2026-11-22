@@ -26,6 +26,8 @@ EXPORT_DIR=__INSTALL_DIR__/exports
 AUTO_FETCH_ASSETS=False
 
 TMDB_API_KEY=__TMDB_API_KEY__
+# YunoHost tells the admin of upgrades; the changelog's steps are the package's to run
+RELEASE_CHECK_ENABLED=False
 
 LANGUAGE_CODE=__LANGUAGE__
 TIME_ZONE=__TIMEZONE__

@@ -51,6 +51,9 @@ fi
 ynh_script_progression "Restoring system configurations related to $app..."
 
 ynh_restore "/etc/nginx/conf.d/$domain.d/$app.conf"
+ynh_restore "$_moviebuff_nginx_cache_conf"
+mkdir -p "$_moviebuff_nginx_cache_dir"
+chown www-data:www-data "$_moviebuff_nginx_cache_dir"
 
 for service in $(_moviebuff_services); do
     ynh_restore "/etc/systemd/system/$service.service"

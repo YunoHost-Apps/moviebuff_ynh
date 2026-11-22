@@ -47,7 +47,7 @@ _moviebuff_create_admin
 #=================================================
 ynh_script_progression "Adding system configurations related to $app..."
 
-ynh_config_add_nginx
+_moviebuff_add_nginx
 
 _moviebuff_add_services
 

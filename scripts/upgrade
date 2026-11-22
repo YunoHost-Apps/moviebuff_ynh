@@ -42,12 +42,15 @@ _moviebuff_manage remember_follow_accounts || ynh_print_warn "remember_follow_ac
 # their followers once. Idempotent; a delivery that fails is retried by the worker
 _moviebuff_manage announce_default_avatars || ynh_print_warn "announce_default_avatars failed: run it again later"
 
+# Since 0.3.0, imported reviews cut short are given back whole. Idempotent, sends nothing
+_moviebuff_manage restore_cut_reviews || ynh_print_warn "restore_cut_reviews failed: run it again later"
+
 #=================================================
 # REAPPLY SYSTEM CONFIGURATION
 #=================================================
 ynh_script_progression "Upgrading system configurations related to $app..."
 
-ynh_config_add_nginx
+_moviebuff_add_nginx
 
 # Beat reads its schedule only when it starts, so it is restarted with the rest
 _moviebuff_add_services
