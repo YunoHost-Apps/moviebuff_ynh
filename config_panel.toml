@@ -27,6 +27,7 @@ services = ["__APP__", "__APP__-worker", "__APP__-peer-reads", "__APP__-beat"]
         type = "select"
         choices.en = "English"
         choices.fr = "Français"
+        choices.eu = "Euskara"
 
 [email]
 name.en = "E-mail"
